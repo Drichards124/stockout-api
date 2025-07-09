@@ -9,7 +9,7 @@ COPY . /app
 
 # Install dependencies
 RUN pip install --upgrade pip \
-    && pip install -r Requirements.txt
+    && pip install -r requirements.txt
 
 # Expose port 8080
 EXPOSE 8080
