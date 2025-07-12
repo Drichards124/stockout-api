@@ -27,11 +27,15 @@ class StockoutRequest(BaseModel):
 
 
 @app.post("/predict")
-def predict_stockout(data: StockoutRequest):
-    X = np.array([[data.demand, data.demand_7d_avg, data.remaining_inventory, data.product_id_encoded]])
-    prediction = model.predict(X)[0]
-    probability = model.predict_proba(X)[0][1]  # probability of stockout
+def predict(request: StockoutRequest):
+    features = np.array([[request.product_id_encoded, request.demand, request.demand_7d_avg, request.remaining_inventory]])
+    prediction = model.predict(features)[0]
+    probability = model.predict_proba(features)[0][1]
     return {
         "stockout_prediction": int(prediction),
-        "stockout_probability": round(probability, 4)
+        "stockout_probability": round(probability, 2)
     }
+
+@app.get("/")
+def root():
+    return {"message": "Welcome to the Stockout API. Visit /docs for Swagger
