@@ -12,6 +12,9 @@ from pydantic import BaseModel
 import joblib
 import numpy as np
 
+# Initialize API
+app = FastAPI()
+
 # Load the model
 model = joblib.load("best_model_random_forest.pkl")
 
@@ -22,8 +25,6 @@ class StockoutRequest(BaseModel):
     demand_7d_avg: float
     remaining_inventory: float
 
-# Initialize API
-app = FastAPI()
 
 @app.post("/predict")
 def predict_stockout(data: StockoutRequest):
